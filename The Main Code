@@ -1,0 +1,64 @@
+import random # MAIN CODE
+
+options = ["Flamecharm", "Frostdraw", "Shadowcast", "Thundercall", "Galebreathe", "Ironsing", "Attunementless"]
+attunement = random.choice(options)
+
+if attunement == "Ironsing":
+    attunement_stat_point = random.randint(0, 100)
+else:
+    attunement_stat_point = 0
+# Weapon Options
+weapon_options = ["Light weapon", "Medium weapon", "Heavy weapon"]
+weapon_choice = random.choice(weapon_options)
+weapon_stat_point = random.randint(0, 100)
+
+attributes = ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma"]
+
+total_stat_points = 327
+max_stat_point = min(total_stat_points, 100)
+
+if attunement == "Attunementless":
+    attunement_stat_point = 0 
+else:
+    attunement_stat_point = random.randint(10, max_stat_point)
+total_stat_points -= attunement_stat_point
+
+max_stat_point = min(total_stat_points, 100)
+weapon_stat_point = random.randint(0, max_stat_point)
+total_stat_points -= weapon_stat_point
+
+stat_points = []
+for _ in range(len(attributes)-1):
+    max_stat_point = min(total_stat_points, 100)
+    stat_point = random.randint(0, max_stat_point)
+    stat_points.append(stat_point)
+    total_stat_points -= stat_point
+
+stat_points.append(total_stat_points)
+# Oath Options
+if attunement == "Attunementless":
+    oath_options = ["Silentheart", "Contractor", "Dawnwalker", "Fadetrimmer", "Linkstrider", "Oathless"]
+else:
+    oath_options = ["Contractor", "Dawnwalker", "Fadetrimmer", "Linkstrider", "Oathless"]
+
+if "Silentheart" in oath_options:
+    if weapon_stat_point < 75 or stat_points[0] < 40 or (stat_points[2] < 40 and stat_points[5] < 40):
+        oath_options.remove("Silentheart")
+
+if stat_points[4] >= 40:
+    oath_options.append("Blindseer")
+if stat_points[0] >= 40:
+    oath_options.append("Starkindred")
+if stat_points[5] >= 50:
+    oath_options.append("Visionshaper")
+
+oath = random.choice(oath_options)
+
+print(f"Oath: {oath}")
+print(f"Attunement: {attunement} ({attunement_stat_point})")
+print(f"Weapon: {weapon_choice} ({weapon_stat_point})")
+
+for attribute, point in zip(attributes, stat_points):
+    print(f"{attribute}: {point}")
+
+# Made by Shergama131 / Oresfall on Discord
